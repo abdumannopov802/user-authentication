@@ -1,26 +1,41 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-
-class CustomUser(AbstractUser):
-    GENDER = (
+from django.contrib.auth.models import User
+from random import randint
+class CustomUser(User):
+    gender = (
         ('male', 'Male'),
         ('female', 'Female'),
     )
-    birth_date = models.DateField(null=True, blank=True)
-    gender = models.CharField(max_length=10, choices=GENDER, null=True, blank=True)
-    interests = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return self.username
+    interests = (
+        ('sports', 'Sports'),
+        ('music', 'Music'),
+        ('books', 'Books'),
+        ('movies', 'Movies'),
+        ('travel', 'Travel'),
+        ('food', 'Food'),
+    )
+    birth_date = models.DateField()
+    gender = models.CharField(max_length=10, choices=gender, blank=True)
+    interests = models.CharField(max_length=20, choices=interests, blank=True)
 
 class Product(models.Model):
-    CATEGORY = (
-        ('men', 'Men'),
-        ('women', 'Women'),
+    user_category = (
+        ('male', 'Male'),
+        ('female', 'Female'),
         ('children', 'Children'),
     )
+    product_category = (
+        ('sports', 'Sports'),
+        ('music', 'Music'),
+        ('books', 'Books'),
+        ('movies', 'Movies'),
+        ('travel', 'Travel'),
+        ('food', 'Food'),
+    )
     name = models.CharField(max_length=100)
-    category = models.CharField(max_length=10, choices=CATEGORY)
-
-    def __str__(self):
-        return self.name
+    user_category = models.CharField(max_length=10, choices=user_category)
+    product_category = models.CharField(max_length=10, choices=product_category)
+    random_rating = randint(0, 100)
+    rating = models.IntegerField(default=random_rating)
+    from_age = models.DateField(null=True, blank=False)
+    under_age = models.DateField(null=True, blank=False)
